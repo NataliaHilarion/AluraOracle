@@ -1,12 +1,28 @@
 let numeroSecreto = 0;
 let intentos = 0;
+let listaNumeroGenerado = []
+let numeroMaximo = 5;
 
 function asignarTextoElemento(elemento, texto) {
   let elementoHtml = document.querySelector(elemento).innerHTML = texto;
 }
 
 function generarNumeroSecreto() {
-  return Math.floor(Math.random() * 10) + 1;
+  let numeroGenerado = Math.floor(Math.random() * numeroMaximo) + 1;
+
+  console.log(numeroGenerado)
+  console.log(listaNumeroGenerado)
+
+  if(listaNumeroGenerado.length == numeroMaximo){
+    return asignarTextoElemento("p", `Ya se sortearon todos los numeros posibles: ${numeroMaximo}`)
+  } else {
+    if (listaNumeroGenerado.includes(numeroGenerado)) {
+      return generarNumeroSecreto();
+    } else {
+      listaNumeroGenerado.push(numeroGenerado);
+      return numeroGenerado;
+    }
+  }
 }
 
 function verificarIntento() {
@@ -30,12 +46,12 @@ function verificarIntento() {
 }
 
 function limpiarCaja() {
-  let valorCaja = document.querySelector("#valorUsuario").value = " "
+  let valorCaja = document.querySelector("#valorUsuario").value = ""
 }
 
 function condicionesIniciales(){
   asignarTextoElemento("h1", "Juego Adivinar numero!");
-  asignarTextoElemento("p", "Elige un numero del 1 al 10");
+  asignarTextoElemento("p", `Elige un numero del 1 al ${numeroMaximo}`);
   numeroSecreto = generarNumeroSecreto();
   intentos = 1;
 }
